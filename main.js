@@ -7,10 +7,44 @@ const knop3 = document.getElementById("knop3");
 const knop4 = document.getElementById("knop4");
 const stepButton = document.getElementById("sortstep");
 const stepCounter = document.getElementById("step");
+const codeContainer = document.getElementById("code");
 
 knop1.addEventListener("click", function () {
-  title.innerHTML = "Nummer 1";
+  title.innerHTML = "Bubble sort";
+  const codeArray = [
+    "",
+    "function bubbleSort(inputArr) => {",
+    "  let len = inputArr.length;",
+    "  for (let i = 0; i < len; i++) {",
+    "      for (let j = 0; j < len; j++) {",
+    "          if (inputArr[j] > inputArr[j + 1]) {",
+    "              let tmp = inputArr[j];",
+    "              inputArr[j] = inputArr[j + 1];",
+    "              inputArr[j + 1] = tmp;",
+    "          }",
+    "      }",
+    "  }",
+    "  return inputArr;",
+    "};",
+    "",
+  ];
+
+  title.innerHTML = "Bubble sort";
+
+  // Initialize an empty string to hold the HTML for each line
+  let codeHTML = "";
+
+  // Loop through each line in the codeArray, adding a new line after each
+  codeArray.forEach((line, index) => {
+    codeHTML += `<span ${index == 4 ? 'class="active"' : ""} id="line${
+      index + 1
+    }">${line}</span>`;
+  });
+
+  // Set the innerHTML of the <code> element with id "code"
+  document.getElementById("code").innerHTML = codeHTML;
 });
+
 knop2.addEventListener("click", function () {
   title.innerHTML = "Nummer 2";
 });
@@ -77,7 +111,7 @@ export function generateList() {
 
 function inCreaseStep() {
   step++;
-  stepCounter.innerHTML = step;
+  stepCounter.innerHTML = "Counter: " + step;
 }
 
 let autoClickInterval;
