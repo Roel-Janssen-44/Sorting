@@ -7,6 +7,14 @@ let needsFlip = false;
 export function bubbleSortStep(list, step) {
   let newList = [...list];
 
+  if (loopCounter >= list.length - 1) {
+    newList[0].state = "correct";
+    clearCanvas();
+    draw(newList);
+
+    return { newList, status: "done" };
+  }
+
   const previousItem = newList[currentIndex - 1];
   const currentItem = newList[currentIndex];
   const nextItem = newList[currentIndex + 1];
@@ -33,7 +41,7 @@ export function bubbleSortStep(list, step) {
       currentIndex++;
     }
     clearCanvas();
-    draw(newList, currentIndex);
+    draw(newList);
 
     // Check if end is reached
     if (currentIndex >= list.length - loopCounter - 1) {
@@ -42,12 +50,12 @@ export function bubbleSortStep(list, step) {
       currentIndex = 0;
       loopCounter++;
       clearCanvas();
-      draw(newList, currentIndex);
-      return;
+      draw(newList);
+      return { newList, status: "inProgress" };
     }
   }
 
-  return newList;
+  return { newList, status: "inProgress" };
 }
 
 function flipItems(list, currentIndex) {

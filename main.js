@@ -29,7 +29,7 @@ c.width = canvasWidth;
 c.height = canvasHeight;
 const ctx = c.getContext("2d");
 
-const listLength = 35;
+const listLength = 15;
 const pillarWidth = canvasWidth / listLength;
 const generatedList = generateList();
 draw(generatedList);
@@ -80,17 +80,22 @@ function inCreaseStep() {
   stepCounter.innerHTML = step;
 }
 
-stepButton.addEventListener("click", function () {
-  inCreaseStep();
-  const newList = bubbleSortStep(generatedList, step);
-  currentList = newList;
-});
+let autoClickInterval;
 
 function autoClickButton() {
-  setInterval(() => {
+  autoClickInterval = setInterval(() => {
     stepButton.click();
   }, 30);
 }
+
+stepButton.addEventListener("click", function () {
+  inCreaseStep();
+  const { newList, status } = bubbleSortStep(generatedList, step);
+  currentList = newList;
+  if (status == "done") {
+    clearInterval(autoClickInterval);
+  }
+});
 
 const autoStepButton = document.querySelector("#autostep");
 
