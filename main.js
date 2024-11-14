@@ -1,11 +1,12 @@
-import { sortNumber1 } from "./algoritms/1.js";
-// import { myFunction2 } from "./algoritms/2.js";
+import { bubbleSortStep } from "./algoritms/bubbleSort.js";
 
 const title = document.getElementById("title");
 const knop1 = document.getElementById("knop1");
 const knop2 = document.getElementById("knop2");
 const knop3 = document.getElementById("knop3");
 const knop4 = document.getElementById("knop4");
+const stepButton = document.getElementById("sortstep");
+const stepCounter = document.getElementById("step");
 
 knop1.addEventListener("click", function () {
   title.innerHTML = "Nummer 1";
@@ -28,12 +29,13 @@ c.width = canvasWidth;
 c.height = canvasHeight;
 const ctx = c.getContext("2d");
 
-const listLength = 25;
+const listLength = 35;
 const pillarWidth = canvasWidth / listLength;
 const generatedList = generateList();
 draw(generatedList);
 
-console.log(generatedList);
+let currentList = generatedList;
+let step = 0;
 
 export function clearCanvas() {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -42,9 +44,12 @@ export function clearCanvas() {
 export function draw(list) {
   ctx.beginPath();
   list.forEach((item, index) => {
-    ctx.fillStyle = "red";
     if (item.state === "selected") {
       ctx.fillStyle = "blue";
+    } else if (item.state === "correct") {
+      ctx.fillStyle = "green";
+    } else {
+      ctx.fillStyle = "red";
     }
     ctx.fillRect(
       index * pillarWidth,
@@ -66,11 +71,29 @@ export function generateList() {
       state: null,
     });
   }
+
   return list;
 }
 
-skip.addEventListener("click", function () {
-  const newList = sortNumber1(generatedList);
-  // clearCanvas();
-  // draw(newList);
+function inCreaseStep() {
+  step++;
+  stepCounter.innerHTML = step;
+}
+
+stepButton.addEventListener("click", function () {
+  inCreaseStep();
+  const newList = bubbleSortStep(generatedList, step);
+  currentList = newList;
+});
+
+function autoClickButton() {
+  setInterval(() => {
+    stepButton.click();
+  }, 30);
+}
+
+const autoStepButton = document.querySelector("#autostep");
+
+autoStepButton.addEventListener("click", function () {
+  autoClickButton();
 });
