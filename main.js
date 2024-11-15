@@ -7,42 +7,37 @@ const knop3 = document.getElementById("knop3");
 const knop4 = document.getElementById("knop4");
 const stepButton = document.getElementById("sortstep");
 const stepCounter = document.getElementById("step");
-const codeContainer = document.getElementById("code");
+let codeContainer = document.getElementById("code");
+const autoStepButton = document.querySelector("#autostep");
 
 knop1.addEventListener("click", function () {
   title.innerHTML = "Bubble sort";
   const codeArray = [
     "",
-    "function bubbleSort(inputArr) => {",
-    "  let len = inputArr.length;",
-    "  for (let i = 0; i < len; i++) {",
-    "      for (let j = 0; j < len; j++) {",
-    "          if (inputArr[j] > inputArr[j + 1]) {",
-    "              let tmp = inputArr[j];",
-    "              inputArr[j] = inputArr[j + 1];",
-    "              inputArr[j + 1] = tmp;",
-    "          }",
-    "      }",
-    "  }",
-    "  return inputArr;",
-    "};",
+    "1    function bubbleSort(inputArr) => {",
+    "2      let len = inputArr.length;",
+    "3      for (let i = 0; i < len; i++) {",
+    "4          for (let j = 0; j < len; j++) {",
+    "5              if (inputArr[j] > inputArr[j + 1]) {",
+    "6                  let tmp = inputArr[j];",
+    "7                  inputArr[j] = inputArr[j + 1];",
+    "8                  inputArr[j + 1] = tmp;",
+    "9              }",
+    "10         }",
+    "11     }",
+    "12     return inputArr;",
+    "13   };",
     "",
   ];
 
   title.innerHTML = "Bubble sort";
-
-  // Initialize an empty string to hold the HTML for each line
   let codeHTML = "";
-
-  // Loop through each line in the codeArray, adding a new line after each
   codeArray.forEach((line, index) => {
-    codeHTML += `<span ${index == 4 ? 'class="active"' : ""} id="line${
-      index + 1
-    }">${line}</span>`;
+    codeHTML += `<span id="line${index}" ${
+      index == 2 ? 'class="active"' : ""
+    }>${line}</span>`;
   });
-
-  // Set the innerHTML of the <code> element with id "code"
-  document.getElementById("code").innerHTML = codeHTML;
+  codeContainer.innerHTML = codeHTML;
 });
 
 knop2.addEventListener("click", function () {
@@ -95,16 +90,28 @@ export function draw(list) {
   ctx.stroke();
 }
 
+export function setActiveLines(lines) {
+  codeContainer.querySelectorAll("span").forEach((line) => {
+    line.classList.remove("active");
+  });
+  lines.forEach((line) => {
+    const currentLine = codeContainer.querySelector(`#line${line}`);
+    currentLine.classList.add("active");
+  });
+}
+
 export function generateList() {
   let list = [];
+  const heightAvailable = canvasHeight - 100;
+  const pillarHeightDifference = heightAvailable / listLength;
   for (let i = 0; i < listLength; i++) {
-    const height = Math.round(Math.random() * 300);
-
+    const height = i * pillarHeightDifference + 50;
     list.push({
       height: height,
       state: null,
     });
   }
+  list.sort(() => Math.random() - 0.5);
 
   return list;
 }
@@ -130,8 +137,6 @@ stepButton.addEventListener("click", function () {
     clearInterval(autoClickInterval);
   }
 });
-
-const autoStepButton = document.querySelector("#autostep");
 
 autoStepButton.addEventListener("click", function () {
   autoClickButton();

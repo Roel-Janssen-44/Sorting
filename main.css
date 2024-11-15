@@ -29,9 +29,13 @@ code .active {
 
 .code {
   background: #070d1f;
-  padding: 10px 25px 0;
+  padding: 30px 25px 0;
   border-radius: 5px;
   color: white;
+}
+
+#code {
+  padding: 30px;
 }
 
 .button {
